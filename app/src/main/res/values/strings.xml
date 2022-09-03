@@ -8,4 +8,10 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="sign_in">Sign in</string>
+    <string name="empty_email_field">Email field is empty, please fill it out.</string>
+    <string name="empty_password_field">Password field is empty, please fill it out.</string>
+    <string name="invalid_email_format">Email format isn\'t valid, please check if you enter your email correctly</string>
+    <string name="successfully_logged_in">Successfully logged in!</string>
+    <string name="wrong_credentials">Your credentials are wrong, please try again!</string>
+    <string name="something_went_wrong">Something went wrong, please try again!</string>
 </resources>

@@ -14,4 +14,6 @@
     <string name="successfully_logged_in">Successfully logged in!</string>
     <string name="wrong_credentials">Your credentials are wrong, please try again!</string>
     <string name="something_went_wrong">Something went wrong, please try again!</string>
+    <string name="connection_lost">Connection lost</string>
+    <string name="checking_credentials">Checking credentials...</string>
 </resources>

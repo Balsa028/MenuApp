@@ -1,5 +1,6 @@
 package com.balsa.menuapp.Utils;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -7,6 +8,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 public class Util {
+
+    public static ProgressDialog progressDialog;
 
     public static void replaceFragment(FragmentManager manager, int containerId, Fragment fragment){
         if(!manager.isDestroyed()){
@@ -27,6 +30,16 @@ public class Util {
     public static String readTokenFromSharedPrefs(Context context){
         SharedPreferences preferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
         return  preferences.getString(Constants.USER_TOKEN, "");
+    }
+
+    public static void showProgressDialog(Context context, String message){
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage(message);
+        progressDialog.show();
+    }
+
+    public static void dismissProgressDialog(){
+        if(progressDialog != null) progressDialog.dismiss();
     }
 
 }

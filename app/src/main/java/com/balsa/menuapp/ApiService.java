@@ -26,18 +26,23 @@ public class ApiService {
 
     //sign in logic
     public void performSignIn(String email, String password, LoginFragment fragment){
+
+        Util.showProgressDialog(fragment.getActivity(), fragment.requireActivity().getResources().getString(R.string.checking_credentials));
         User user = new User(email, password);
         Call<UserResponse> userResponseCall = retrofitEndpoint.loginUser(user);
         userResponseCall.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 if(response.isSuccessful() && response.code() == 200 && response.body() != null){
+                    Util.dismissProgressDialog();
                     String token = response.body().getTokenObjectResponse().getTokenValueResponse().getValue();
                     Util.saveTokenInSharedPrefs(token, fragment.requireActivity());
                     isLoginSuccessfull.postValue(Constants.LOGIN_SUCCESS_KEY);
                 } else if(response.code() == 401){
+                    Util.dismissProgressDialog();
                     isLoginSuccessfull.postValue(Constants.LOGIN_WRONG_CREDENTIALS_KEY);
                 } else {
+                    Util.dismissProgressDialog();
                     isLoginSuccessfull.postValue(Constants.LOGIN_SOMETHING_WENT_WRONG_KEY);
                 }
             }

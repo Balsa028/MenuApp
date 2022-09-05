@@ -16,4 +16,13 @@
     <string name="something_went_wrong">Something went wrong, please try again!</string>
     <string name="connection_lost">Connection lost</string>
     <string name="checking_credentials">Checking credentials...</string>
+    <string name="unknown">Unknown</string>
+    <string name="temporarily_unavailable_for_digital_orders">Temporarily unavailable for digital orders</string>
+    <string name="today_open_24">Today open 24</string>
+    <string name="today">Today </string>
+    <string name="closed">Closed</string>
+    <string name="fetching_data">Fetching data, please wait...</string>
+    <string name="dialog_error_text">Something went wrong while fetching venues data, please try again.</string>
+    <string name="error">Error</string>
+    <string name="ok">Ok</string>
 </resources>

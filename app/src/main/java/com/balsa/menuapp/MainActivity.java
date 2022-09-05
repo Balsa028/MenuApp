@@ -42,13 +42,10 @@ public class MainActivity extends AppCompatActivity {
     private void handleConnectivityChanges() {
         connectivityLost = findViewById(R.id.txtConnectivityLost);
         networkConnectivity = new NetworkConnectivity(this);
-        networkConnectivity.observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean isOnline) {
-                if(!isOnline){
-                    connectivityLost.setVisibility(View.VISIBLE);
-                } else connectivityLost.setVisibility(View.INVISIBLE);
-            }
+        networkConnectivity.observe(this, isOnline -> {
+            if(!isOnline){
+                connectivityLost.setVisibility(View.VISIBLE);
+            } else connectivityLost.setVisibility(View.INVISIBLE);
         });
     }
     private void decideStartScreen() {

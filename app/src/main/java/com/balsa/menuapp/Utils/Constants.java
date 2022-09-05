@@ -10,4 +10,7 @@ public class Constants {
     public static final String LOGIN_WRONG_CREDENTIALS_KEY = "wrong_credentials";
     public static final String LOGIN_SOMETHING_WENT_WRONG_KEY = "something_went_wrong";
 
+    public static final String latitude = "44.001783";
+    public static final String longitude = "21.26907";
+
 }

@@ -2,11 +2,16 @@ package com.balsa.menuapp;
 
 import androidx.lifecycle.MutableLiveData;
 import com.balsa.menuapp.Login.LoginFragment;
+import com.balsa.menuapp.Models.Coordinates;
 import com.balsa.menuapp.Models.User;
 import com.balsa.menuapp.Response.Login.UserResponse;
+import com.balsa.menuapp.Response.Venues.VenueResponse;
+import com.balsa.menuapp.Response.Venues.VenuesDataResponse;
 import com.balsa.menuapp.Utils.Constants;
 import com.balsa.menuapp.Utils.RetrofitEndpoint;
 import com.balsa.menuapp.Utils.Util;
+import com.balsa.menuapp.Venues.VenuesListFragment;
+import java.util.List;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -18,13 +23,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiService {
 
     private static ApiService instance;
+    RetrofitEndpoint retrofitEndpoint = setupRetrofit();
+
+    //login
     private final MutableLiveData<String> isLoginSuccessfull = new MutableLiveData<>();
     private final MutableLiveData<String> emailLiveData = new MutableLiveData<>();
     private final MutableLiveData<String> passwordLiveData = new MutableLiveData<>();
-    RetrofitEndpoint retrofitEndpoint = setupRetrofit();
+
+    //venues
+    private final MutableLiveData<List<VenueResponse>> venuesMutableLiveData = new MutableLiveData<>();
 
 
-    //sign in logic
+
+    //Login logic
     public void performSignIn(String email, String password, LoginFragment fragment){
 
         Util.showProgressDialog(fragment.getActivity(), fragment.requireActivity().getResources().getString(R.string.checking_credentials));
@@ -70,6 +81,40 @@ public class ApiService {
         emailLiveData.postValue(email);
         passwordLiveData.postValue(password);
     }
+
+    //Venues logic
+    public void getVenuesList(VenuesListFragment fragment){
+
+        Util.showProgressDialog(fragment.getActivity(), fragment.requireActivity().getResources().getString(R.string.fetching_data));
+        Coordinates coordinates = new Coordinates(Constants.latitude, Constants.longitude);
+        Call<VenuesDataResponse> venuesListCall = retrofitEndpoint.getVenuesList(coordinates);
+        venuesListCall.enqueue(new Callback<VenuesDataResponse>() {
+            @Override
+            public void onResponse(Call<VenuesDataResponse> call, Response<VenuesDataResponse> response) {
+                if(response.isSuccessful() && response.code() == 200 && response.body() != null){
+                    Util.dismissProgressDialog();
+                    List<VenueResponse> venues =  response.body().getVenuesListResponse().getVenuesList();
+                    venuesMutableLiveData.postValue(venues);
+                } else{
+                    Util.dismissProgressDialog();
+                    venuesMutableLiveData.postValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<VenuesDataResponse> call, Throwable t) {
+                venuesMutableLiveData.postValue(null);
+                t.printStackTrace();
+            }
+        });
+
+    }
+
+    public MutableLiveData<List<VenueResponse>> getVenuesMutableLiveData() {
+        return venuesMutableLiveData;
+    }
+
+    //===================================================
 
     public static ApiService getInstance() {
         if(instance == null){

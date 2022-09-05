@@ -35,7 +35,6 @@ public class VenuesListAdapter extends RecyclerView.Adapter<VenuesListAdapter.Ve
     public void onBindViewHolder(@NonNull VenueViewHolder holder, int position) {
 
         holder.venueName.setText(venues.get(position).getVenue().getName());
-      //  holder.venueDistance.setText(venues.get(position).getDistance());
         holder.venueAddressStateCity.setText(venues.get(position).getVenue().getAddress() + ", "
                 + venues.get(position).getVenue().getCity() + ", "
                 + venues.get(position).getVenue().getCountry().getName());
@@ -91,15 +90,12 @@ public class VenuesListAdapter extends RecyclerView.Adapter<VenuesListAdapter.Ve
     }
 
     private void setVenueEnabled(VenueViewHolder holder) {
-        holder.parent.setEnabled(true);
-
         holder.venueName.setAlpha(1);
         holder.venueDistance.setAlpha(1);
     }
 
     private void setVenueDisabled(VenueViewHolder holder, String message) {
         holder.venueServingTime.setText(message);
-        holder.parent.setEnabled(false);
 
         holder.venueName.setAlpha((float) 0.6);
         holder.venueDistance.setAlpha((float) 0.6);

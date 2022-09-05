@@ -22,7 +22,7 @@
     <string name="today">Today </string>
     <string name="closed">Closed</string>
     <string name="fetching_data">Fetching data, please wait...</string>
-    <string name="dialog_error_text">Something went wrong while fetching venues data, please try again.</string>
+    <string name="dialog_error_text">Something went wrong while fetching venues data, please restart application and try again.</string>
     <string name="error">Error</string>
     <string name="ok">Ok</string>
 </resources>

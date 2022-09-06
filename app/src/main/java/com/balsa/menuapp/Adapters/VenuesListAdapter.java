@@ -32,6 +32,9 @@ public class VenuesListAdapter extends RecyclerView.Adapter<VenuesListAdapter.Ve
         this.venueDetailsViewModel = new ViewModelProvider(fragment.requireActivity()).get(VenueDetailsViewModel.class);
     }
 
+    //napravljen radi inicijalizacije adaptera u testovima
+    public VenuesListAdapter(){}
+
     @NonNull
     @Override
     public VenueViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -43,11 +46,11 @@ public class VenuesListAdapter extends RecyclerView.Adapter<VenuesListAdapter.Ve
     public void onBindViewHolder(@NonNull VenueViewHolder holder, int position) {
 
         holder.venueName.setText(venues.get(position).getVenue().getName());
+        holder.venueDistance.setText(handleDistanceAppearance(venues.get(position).getDistance()));
         holder.venueAddressStateCity.setText(venues.get(position).getVenue().getAddress() + ", "
                 + venues.get(position).getVenue().getCity() + ", "
                 + venues.get(position).getVenue().getCountry().getName());
 
-        handleDistanceAppearance(holder, position);
         handleServingTimeAppearance(holder, position);
 
         //click listener za item u rec view-u
@@ -64,14 +67,16 @@ public class VenuesListAdapter extends RecyclerView.Adapter<VenuesListAdapter.Ve
 
     }
 
-    private void handleDistanceAppearance(VenueViewHolder holder, int position) {
-        float distance = Float.parseFloat(venues.get(position).getDistance());
+    public String handleDistanceAppearance(String distanceString) {
+        if(distanceString == null) return "Distance unknown";
+
+        float distance = Float.parseFloat(distanceString);
         if (distance < 1000) {
-            holder.venueDistance.setText((int) distance + " m");
+            return (int)distance + " m";
         } else {
             //prikaz u kilometrima u ostalim slucajevima
             distance /= 1000;
-            holder.venueDistance.setText(String.format("%.01f", distance) + " km");
+            return String.format("%.01f", distance) + " km";
         }
     }
 

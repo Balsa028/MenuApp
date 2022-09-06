@@ -95,7 +95,7 @@ public class LoginFragment extends Fragment {
         });
     }
 
-    private Boolean validateCredentials(String email, String password) {
+    public Boolean validateCredentials(String email, String password) {
 
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(getActivity(), requireActivity().getResources().getString(R.string.empty_email_field), Toast.LENGTH_SHORT).show();

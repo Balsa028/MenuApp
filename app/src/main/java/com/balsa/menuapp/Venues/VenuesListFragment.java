@@ -49,10 +49,10 @@ public class VenuesListFragment extends Fragment {
     private void observeVenuesListChanges() {
 
         venuesListViewModel.getVenuesList().observe(requireActivity(), venues -> {
-            if(venues != null){
+            if (venues != null) {
                 adapter.setVenues(venues);
                 venuesRecyclerView.setAdapter(adapter);
-            } else{
+            } else {
                 Util.showAlertDialog(this, requireActivity().getResources().getString(R.string.error),
                         requireActivity().getResources().getString(R.string.dialog_error_text),
                         requireActivity().getResources().getString(R.string.ok));

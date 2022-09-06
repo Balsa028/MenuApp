@@ -47,7 +47,6 @@ public class Venue {
     private List<ServingTimes> servingTimesList;
 
 
-
     public String getName() {
         return name;
     }
@@ -82,7 +81,7 @@ public class Venue {
 
     public String getAddress() {
 
-        if(address.equalsIgnoreCase("")){
+        if (address.equalsIgnoreCase("")) {
             return "unknown";
         }
         return address;
@@ -94,7 +93,7 @@ public class Venue {
 
     public String getCity() {
 
-        if(city.equalsIgnoreCase("")){
+        if (city.equalsIgnoreCase("")) {
             return "unknown";
         }
         return city;

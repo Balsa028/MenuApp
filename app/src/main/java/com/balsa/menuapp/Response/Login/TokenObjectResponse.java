@@ -9,7 +9,7 @@ public class TokenObjectResponse {
     @Expose
     private TokenValueResponse tokenValueResponse;
 
-    public TokenValueResponse getTokenValueResponse(){
+    public TokenValueResponse getTokenValueResponse() {
         return tokenValueResponse;
     }
 

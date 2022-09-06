@@ -15,11 +15,12 @@ public class NetworkConnectivity extends LiveData<Boolean> {
     ConnectivityManager connectivityManager;
 
     //constructor
-    public NetworkConnectivity(Context context){
+    public NetworkConnectivity(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             connectivityManager = context.getSystemService(ConnectivityManager.class);
         }
     }
+
     //creating network request object
     NetworkRequest networkRequest = new NetworkRequest.Builder()
             .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
@@ -28,7 +29,7 @@ public class NetworkConnectivity extends LiveData<Boolean> {
             .build();
 
     //creating network callback
-    private ConnectivityManager.NetworkCallback networkCallback = new ConnectivityManager.NetworkCallback(){
+    private ConnectivityManager.NetworkCallback networkCallback = new ConnectivityManager.NetworkCallback() {
 
         @Override
         public void onAvailable(@NonNull Network network) {

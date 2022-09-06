@@ -5,15 +5,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.balsa.menuapp.R;
 import com.balsa.menuapp.Response.Venues.ServingTimes;
 import com.balsa.menuapp.Response.Venues.VenueResponse;
 import com.balsa.menuapp.VenueDetails.VenueDetailsFragment;
 import com.balsa.menuapp.VenueDetails.VenueDetailsViewModel;
 import com.balsa.menuapp.Venues.VenuesListFragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +26,7 @@ public class VenuesListAdapter extends RecyclerView.Adapter<VenuesListAdapter.Ve
     private VenuesListFragment fragment;
     private VenueDetailsViewModel venueDetailsViewModel;
 
-    public VenuesListAdapter(VenuesListFragment fragment){
+    public VenuesListAdapter(VenuesListFragment fragment) {
         venues = new ArrayList<>();
         this.fragment = fragment;
         this.venueDetailsViewModel = new ViewModelProvider(fragment.requireActivity()).get(VenueDetailsViewModel.class);
@@ -63,8 +66,8 @@ public class VenuesListAdapter extends RecyclerView.Adapter<VenuesListAdapter.Ve
 
     private void handleDistanceAppearance(VenueViewHolder holder, int position) {
         float distance = Float.parseFloat(venues.get(position).getDistance());
-        if(distance < 1000){
-            holder.venueDistance.setText((int)distance +" m");
+        if (distance < 1000) {
+            holder.venueDistance.setText((int) distance + " m");
         } else {
             //prikaz u kilometrima u ostalim slucajevima
             distance /= 1000;
@@ -78,23 +81,24 @@ public class VenuesListAdapter extends RecyclerView.Adapter<VenuesListAdapter.Ve
         String openingTime = "";
         String closingTime = "";
 
-        if(!servingTimesList.isEmpty()){
+        if (!servingTimesList.isEmpty()) {
             openingTime = servingTimesList.get(0).getTimeFrom();
             closingTime = servingTimesList.get(0).getTimeTo();
         }
 
-        if(isOpen){
-            //ukoliko je prazna lista prikazuje se "Temporarily unavailable for digital orders" i disejblovan je klik
-            if(servingTimesList.isEmpty()){
+        if (isOpen) {
+            //ukoliko je prazna lista prikazuje se "Temporarily unavailable for digital orders"
+            if (servingTimesList.isEmpty()) {
                 setVenueDisabled(holder, fragment.requireActivity().getResources().getString(R.string.temporarily_unavailable_for_digital_orders));
-            } else{
+            } else {
                 setVenueEnabled(holder);
 
-                if(openingTime == null || closingTime == null){ //desava se
+                if (openingTime == null || closingTime == null) { //desava se
                     holder.venueServingTime.setText(fragment.requireActivity().getResources().getString(R.string.unknown));
-                } else if(openingTime.equalsIgnoreCase("00:00") && closingTime.equalsIgnoreCase("00:00")){
+                } else if (openingTime.equalsIgnoreCase("00:00") && closingTime.equalsIgnoreCase("00:00")) {
                     holder.venueServingTime.setText(fragment.requireActivity().getResources().getString(R.string.today_open_24));
-                } else holder.venueServingTime.setText(fragment.requireActivity().getResources().getString(R.string.today) +" "+ openingTime + " - " +closingTime);
+                } else
+                    holder.venueServingTime.setText(fragment.requireActivity().getResources().getString(R.string.today) + " " + openingTime + " - " + closingTime);
 
             }
         } else {
@@ -118,10 +122,10 @@ public class VenuesListAdapter extends RecyclerView.Adapter<VenuesListAdapter.Ve
     @Override
     public int getItemCount() {
 
-        if(venues == null){
+        if (venues == null) {
             return 0;
         }
-       return venues.size();
+        return venues.size();
     }
 
     public void setVenues(List<VenueResponse> venues) {

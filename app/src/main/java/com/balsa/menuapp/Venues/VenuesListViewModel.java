@@ -12,15 +12,15 @@ public class VenuesListViewModel extends ViewModel {
 
     private ApiService apiService;
 
-    public VenuesListViewModel(){
+    public VenuesListViewModel() {
         apiService = ApiService.getInstance();
     }
 
-    public MutableLiveData<List<VenueResponse>> getVenuesList(){
+    public MutableLiveData<List<VenueResponse>> getVenuesList() {
         return apiService.getVenuesMutableLiveData();
     }
 
-    public void showVenues(VenuesListFragment fragment){
+    public void showVenues(VenuesListFragment fragment) {
         apiService.getVenuesList(fragment);
     }
 

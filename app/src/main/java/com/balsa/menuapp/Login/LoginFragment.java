@@ -51,21 +51,22 @@ public class LoginFragment extends Fragment {
         loginViewModel.configurationChanged(emailEditText.getText().toString(), passwordEditText.getText().toString());
     }
 
-    private void performSignIn(EditText emailEditText, EditText passwordEditText, LoginFragment fragment){
+    private void performSignIn(EditText emailEditText, EditText passwordEditText, LoginFragment fragment) {
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
-        if(validateCredentials(email, password)) loginViewModel.performSignIn(email, password, fragment);
+        if (validateCredentials(email, password))
+            loginViewModel.performSignIn(email, password, fragment);
 
     }
 
-    private void observeLoginState(){
+    private void observeLoginState() {
         //posmatranje promena nad podacima za login
         loginViewModel.getIsLoginSuccessfull().observe(requireActivity(), isSuccessfull -> {
-            try{
-                switch (isSuccessfull){
+            try {
+                switch (isSuccessfull) {
                     case Constants.LOGIN_SUCCESS_KEY:
-                        if(!Util.readTokenFromSharedPrefs(requireActivity()).equals("")){
+                        if (!Util.readTokenFromSharedPrefs(requireActivity()).equals("")) {
                             Toast.makeText(getActivity(), requireActivity().getResources().getString(R.string.successfully_logged_in), Toast.LENGTH_SHORT).show();
                             Util.replaceFragment(requireActivity().getSupportFragmentManager(), R.id.fragment_container, VenuesListFragment.newInstance(), "VenuesListFragment");
                         }
@@ -77,7 +78,7 @@ public class LoginFragment extends Fragment {
                         Toast.makeText(getActivity(), requireActivity().getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                         break;
                 }
-            } catch (IllegalStateException e){
+            } catch (IllegalStateException e) {
                 e.printStackTrace();
             }
 
@@ -93,9 +94,10 @@ public class LoginFragment extends Fragment {
             passwordEditText.setSelection(text.length());
         });
     }
-    private Boolean validateCredentials(String email, String password){
 
-        if(TextUtils.isEmpty(email)){
+    private Boolean validateCredentials(String email, String password) {
+
+        if (TextUtils.isEmpty(email)) {
             Toast.makeText(getActivity(), requireActivity().getResources().getString(R.string.empty_email_field), Toast.LENGTH_SHORT).show();
             emailEditText.requestFocus();
             return false;
@@ -105,7 +107,7 @@ public class LoginFragment extends Fragment {
             emailEditText.requestFocus();
             return false;
         }
-        if(TextUtils.isEmpty(password)){
+        if (TextUtils.isEmpty(password)) {
             Toast.makeText(getActivity(), requireActivity().getResources().getString(R.string.empty_password_field), Toast.LENGTH_SHORT).show();
             passwordEditText.requestFocus();
             return false;

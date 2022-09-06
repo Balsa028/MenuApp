@@ -1,13 +1,16 @@
 package com.balsa.menuapp.VenueDetails;
 
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.balsa.menuapp.Login.LoginFragment;
 import com.balsa.menuapp.R;
 import com.balsa.menuapp.Utils.Util;
@@ -43,20 +46,19 @@ public class VenueDetailsFragment extends Fragment {
     }
 
 
-
     private void displaySelectedVenue() {
         venueDetailsViewModel.getVenueMutableLiveData().observe(requireActivity(), venue -> {
 
-            if(venue != null){
+            if (venue != null) {
                 boolean open = venue.isOpen();
 
                 name.setText(venue.getName());
-                welcomeMessage.setText(venue.getWelcomeMessage().equals("") ? "Welcome to "+venue.getName() : venue.getWelcomeMessage());
+                welcomeMessage.setText(venue.getWelcomeMessage().equals("") ? "Welcome to " + venue.getName() : venue.getWelcomeMessage());
                 description.setText(venue.getDescription().equals("") ? "No description" : venue.getDescription());
 
-                if(open){
+                if (open) {
                     isOpen.setText("OPEN");
-                    try{
+                    try {
                         isOpen.setBackground(requireActivity().getResources().getDrawable(R.drawable.custom_textview_open));
                     } catch (IllegalStateException e) {
                         e.printStackTrace();
@@ -64,18 +66,18 @@ public class VenueDetailsFragment extends Fragment {
                 } else isOpen.setText("CURRENTLY CLOSED");
 
                 //ukoliko slika bude null ostavio sam da bude ic_launcher_foreground
-                if(getActivity() != null && venue.getImage() != null){
+                if (getActivity() != null && venue.getImage() != null) {
                     Glide.with(getActivity())
                             .load(venue.getImage().getImageUrl())
                             .fitCenter()
                             .into(thumbnail);
                 }
-            } else{
-                try{
+            } else {
+                try {
                     Util.showAlertDialog(this, requireActivity().getResources().getString(R.string.error),
                             requireActivity().getResources().getString(R.string.no_data),
                             requireActivity().getResources().getString(R.string.ok));
-                } catch (IllegalStateException e){
+                } catch (IllegalStateException e) {
                     e.printStackTrace();
                 }
 

@@ -12,8 +12,8 @@ public class Util {
 
     public static ProgressDialog progressDialog;
 
-    public static void replaceFragment(FragmentManager manager, int containerId, Fragment fragment, String tag){
-        if(!manager.isDestroyed()){
+    public static void replaceFragment(FragmentManager manager, int containerId, Fragment fragment, String tag) {
+        if (!manager.isDestroyed()) {
             manager.beginTransaction()
                     .replace(containerId, fragment, tag)
                     .commit();
@@ -27,22 +27,22 @@ public class Util {
         editor.apply();
     }
 
-    public static String readTokenFromSharedPrefs(Context context){
+    public static String readTokenFromSharedPrefs(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
-        return  preferences.getString(Constants.USER_TOKEN, "");
+        return preferences.getString(Constants.USER_TOKEN, "");
     }
 
-    public static void showProgressDialog(Context context, String message){
+    public static void showProgressDialog(Context context, String message) {
         progressDialog = new ProgressDialog(context);
         progressDialog.setMessage(message);
         progressDialog.show();
     }
 
-    public static void dismissProgressDialog(){
-        if(progressDialog != null) progressDialog.dismiss();
+    public static void dismissProgressDialog() {
+        if (progressDialog != null) progressDialog.dismiss();
     }
 
-    public static void showAlertDialog(Fragment fragment, String title, String message, String buttonText){
+    public static void showAlertDialog(Fragment fragment, String title, String message, String buttonText) {
         new AlertDialog.Builder(fragment.requireActivity())
                 .setTitle(title)
                 .setMessage(message)

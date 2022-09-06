@@ -11,7 +11,7 @@ public class Country {
 
     public String getName() {
 
-        if(name.equalsIgnoreCase("")){
+        if (name.equalsIgnoreCase("")) {
             return "unknown";
         }
         return name;

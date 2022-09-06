@@ -9,7 +9,7 @@ public class VenueDetailsViewModel extends ViewModel {
 
     private final MutableLiveData<Venue> venueMutableLiveData = new MutableLiveData<>();
 
-    public void selectVenue(Venue venue){
+    public void selectVenue(Venue venue) {
         venueMutableLiveData.setValue(venue);
     }
 

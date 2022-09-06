@@ -4,30 +4,34 @@ import android.text.TextUtils;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
 import com.balsa.menuapp.ApiService;
 
 public class LoginViewModel extends ViewModel {
 
     private ApiService apiService;
 
-    public LoginViewModel(){
+    public LoginViewModel() {
         apiService = ApiService.getInstance();
     }
 
-    public MutableLiveData<String> getIsLoginSuccessfull(){
+    public MutableLiveData<String> getIsLoginSuccessfull() {
         return apiService.getIsLoginSuccessfull();
     }
-    public MutableLiveData<String> getEmailEditText(){
+
+    public MutableLiveData<String> getEmailEditText() {
         return apiService.getEmailLiveData();
     }
-    public MutableLiveData<String> getPasswordEditText(){
+
+    public MutableLiveData<String> getPasswordEditText() {
         return apiService.getPasswordLiveData();
     }
 
-    public void performSignIn(String email, String password, LoginFragment fragment){
+    public void performSignIn(String email, String password, LoginFragment fragment) {
         apiService.performSignIn(email, password, fragment);
     }
-    public void configurationChanged(String email, String password){
+
+    public void configurationChanged(String email, String password) {
         apiService.configurationChanged(email, password);
     }
 

@@ -25,4 +25,5 @@
     <string name="dialog_error_text">Something went wrong while fetching venues data, please restart application and try again.</string>
     <string name="error">Error</string>
     <string name="ok">Ok</string>
+    <string name="no_data">There are no data for selected Venue, please try again.</string>
 </resources>

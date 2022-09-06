@@ -1,6 +1,5 @@
 package com.balsa.menuapp.Login;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.res.Configuration;
@@ -37,19 +36,13 @@ public class LoginFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
-        initViews(view);
-
+        View viewToReturn = inflater.inflate(R.layout.fragment_login, container, false);
+        initViews(viewToReturn);
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
         observeLoginState();
 
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               performSignIn(emailEditText, passwordEditText, LoginFragment.this);
-            }
-        });
-        return view;
+        btnSignIn.setOnClickListener(view -> performSignIn(emailEditText, passwordEditText, LoginFragment.this));
+        return viewToReturn;
     }
 
     @Override
@@ -68,13 +61,14 @@ public class LoginFragment extends Fragment {
 
     private void observeLoginState(){
         //posmatranje promena nad podacima za login
-        loginViewModel.getIsLoginSuccessfull().observe(requireActivity(), new Observer<String>() {
-            @Override
-            public void onChanged(String isSuccessfull) {
+        loginViewModel.getIsLoginSuccessfull().observe(requireActivity(), isSuccessfull -> {
+            try{
                 switch (isSuccessfull){
                     case Constants.LOGIN_SUCCESS_KEY:
-                        Toast.makeText(getActivity(), requireActivity().getResources().getString(R.string.successfully_logged_in), Toast.LENGTH_SHORT).show();
-                        Util.replaceFragment(requireActivity().getSupportFragmentManager(), R.id.fragment_container, VenuesListFragment.newInstance());
+                        if(!Util.readTokenFromSharedPrefs(requireActivity()).equals("")){
+                            Toast.makeText(getActivity(), requireActivity().getResources().getString(R.string.successfully_logged_in), Toast.LENGTH_SHORT).show();
+                            Util.replaceFragment(requireActivity().getSupportFragmentManager(), R.id.fragment_container, VenuesListFragment.newInstance(), "VenuesListFragment");
+                        }
                         break;
                     case Constants.LOGIN_WRONG_CREDENTIALS_KEY:
                         Toast.makeText(getActivity(), requireActivity().getResources().getString(R.string.wrong_credentials), Toast.LENGTH_SHORT).show();
@@ -83,23 +77,20 @@ public class LoginFragment extends Fragment {
                         Toast.makeText(getActivity(), requireActivity().getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                         break;
                 }
+            } catch (IllegalStateException e){
+                e.printStackTrace();
             }
+
         });
 
-        loginViewModel.getEmailEditText().observe(requireActivity(), new Observer<String>() {
-            @Override
-            public void onChanged(String text) {
-                emailEditText.setText(text);
-                emailEditText.setSelection(text.length());
-            }
+        loginViewModel.getEmailEditText().observe(requireActivity(), text -> {
+            emailEditText.setText(text);
+            emailEditText.setSelection(text.length());
         });
 
-        loginViewModel.getPasswordEditText().observe(requireActivity(), new Observer<String>() {
-            @Override
-            public void onChanged(String text) {
-                passwordEditText.setText(text);
-                passwordEditText.setSelection(text.length());
-            }
+        loginViewModel.getPasswordEditText().observe(requireActivity(), text -> {
+            passwordEditText.setText(text);
+            passwordEditText.setSelection(text.length());
         });
     }
     private Boolean validateCredentials(String email, String password){

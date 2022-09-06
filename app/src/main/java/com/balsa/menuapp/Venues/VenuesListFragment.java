@@ -2,8 +2,6 @@ package com.balsa.menuapp.Venues;
 
 import androidx.lifecycle.ViewModelProvider;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.balsa.menuapp.Adapters.VenuesListAdapter;
 import com.balsa.menuapp.R;
+import com.balsa.menuapp.Utils.Util;
 
 public class VenuesListFragment extends Fragment {
 
@@ -34,14 +33,17 @@ public class VenuesListFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_venues_list, container, false);
-        venuesListViewModel = new ViewModelProvider(this).get(VenuesListViewModel.class);
-
         setupVenuesRecView(view);
-        venuesListViewModel.showVenues(this);
         observeVenuesListChanges();
-
-
         return view;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //da su ovde dve linije u onCreateView posle popBackStack-a (sa details screen-a) opet bi iznova pozivale showVenues metodu sto meni ovde to ponasanje ne odgovara
+        venuesListViewModel = new ViewModelProvider(this).get(VenuesListViewModel.class);
+        venuesListViewModel.showVenues(this);
     }
 
     private void observeVenuesListChanges() {
@@ -51,15 +53,9 @@ public class VenuesListFragment extends Fragment {
                 adapter.setVenues(venues);
                 venuesRecyclerView.setAdapter(adapter);
             } else{
-                new AlertDialog.Builder(getActivity())
-                        .setMessage(requireActivity().getResources().getString(R.string.dialog_error_text))
-                        .setTitle(requireActivity().getResources().getString(R.string.error))
-                        .setPositiveButton(requireActivity().getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        }).create().show();
+                Util.showAlertDialog(this, requireActivity().getResources().getString(R.string.error),
+                        requireActivity().getResources().getString(R.string.dialog_error_text),
+                        requireActivity().getResources().getString(R.string.ok));
             }
         });
     }
@@ -69,7 +65,7 @@ public class VenuesListFragment extends Fragment {
         venuesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         venuesRecyclerView.setHasFixedSize(true);
         venuesRecyclerView.setNestedScrollingEnabled(true);
-        adapter = new VenuesListAdapter(getActivity());
+        adapter = new VenuesListAdapter(this);
     }
 
 

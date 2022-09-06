@@ -1,5 +1,6 @@
 package com.balsa.menuapp.Utils;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,11 +12,10 @@ public class Util {
 
     public static ProgressDialog progressDialog;
 
-    public static void replaceFragment(FragmentManager manager, int containerId, Fragment fragment){
+    public static void replaceFragment(FragmentManager manager, int containerId, Fragment fragment, String tag){
         if(!manager.isDestroyed()){
-            manager
-                    .beginTransaction()
-                    .replace(containerId, fragment)
+            manager.beginTransaction()
+                    .replace(containerId, fragment, tag)
                     .commit();
         }
     }
@@ -40,6 +40,17 @@ public class Util {
 
     public static void dismissProgressDialog(){
         if(progressDialog != null) progressDialog.dismiss();
+    }
+
+    public static void showAlertDialog(Fragment fragment, String title, String message, String buttonText){
+        new AlertDialog.Builder(fragment.requireActivity())
+                .setTitle(title)
+                .setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton(buttonText, (dialogInterface, i) -> {
+                    dialogInterface.dismiss();
+                    fragment.requireActivity().getSupportFragmentManager().popBackStack();
+                }).create().show();
     }
 
 }

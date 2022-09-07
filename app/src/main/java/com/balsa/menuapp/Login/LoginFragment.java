@@ -1,5 +1,6 @@
 package com.balsa.menuapp.Login;
 
+import androidx.core.util.PatternsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.res.Configuration;
@@ -102,7 +103,7 @@ public class LoginFragment extends Fragment {
             emailEditText.requestFocus();
             return false;
         }
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (!PatternsCompat.EMAIL_ADDRESS.matcher(email).matches()) {
             Toast.makeText(getActivity(), requireActivity().getResources().getString(R.string.invalid_email_format), Toast.LENGTH_SHORT).show();
             emailEditText.requestFocus();
             return false;

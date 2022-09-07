@@ -43,7 +43,7 @@ public class VenuesListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         //da su ovde dve linije u onCreateView posle popBackStack-a (sa details screen-a) opet bi iznova pozivale showVenues metodu sto meni ovde to ponasanje ne odgovara
         venuesListViewModel = new ViewModelProvider(this).get(VenuesListViewModel.class);
-        venuesListViewModel.showVenues(this);
+        venuesListViewModel.showVenues();
     }
 
     private void observeVenuesListChanges() {
@@ -56,6 +56,16 @@ public class VenuesListFragment extends Fragment {
                 Util.showAlertDialog(this, requireActivity().getResources().getString(R.string.error),
                         requireActivity().getResources().getString(R.string.dialog_error_text),
                         requireActivity().getResources().getString(R.string.ok));
+            }
+        });
+
+        venuesListViewModel.getIsLoadingVenuesLiveData().observe(this.requireActivity(), isLoading -> {
+            try{
+                if(isLoading){
+                    Util.showProgressDialog(requireActivity(), requireActivity().getResources().getString(R.string.fetching_data));
+                } else Util.dismissProgressDialog();
+            } catch (IllegalStateException e){
+                e.printStackTrace();
             }
         });
     }

@@ -1,18 +1,21 @@
 package com.balsa.menuapp.Login;
 
-import android.text.TextUtils;
+import android.app.Application;
 
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.balsa.menuapp.ApiService;
 
-public class LoginViewModel extends ViewModel {
+public class LoginViewModel extends AndroidViewModel {
 
     private ApiService apiService;
+    private Application application;
 
-    public LoginViewModel() {
-        apiService = ApiService.getInstance();
+    public LoginViewModel(Application application) {
+        super(application);
+        this.application = application;
+        this.apiService = ApiService.getInstance();
     }
 
     public MutableLiveData<String> getIsLoginSuccessfull() {
@@ -26,9 +29,12 @@ public class LoginViewModel extends ViewModel {
     public MutableLiveData<String> getPasswordEditText() {
         return apiService.getPasswordLiveData();
     }
+    public MutableLiveData<Boolean> getIsLoadingLoginLiveData(){
+        return apiService.getIsLoadingLoginLiveData();
+    }
 
-    public void performSignIn(String email, String password, LoginFragment fragment) {
-        apiService.performSignIn(email, password, fragment);
+    public void performSignIn(String email, String password) {
+        apiService.performSignIn(email, password, application.getApplicationContext());
     }
 
     public void configurationChanged(String email, String password) {

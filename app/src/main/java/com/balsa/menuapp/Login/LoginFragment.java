@@ -11,7 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +41,7 @@ public class LoginFragment extends Fragment {
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
         observeLoginState();
 
-        btnSignIn.setOnClickListener(view -> performSignIn(emailEditText, passwordEditText, LoginFragment.this));
+        btnSignIn.setOnClickListener(view -> performSignIn(emailEditText, passwordEditText));
         return viewToReturn;
     }
 
@@ -52,12 +51,12 @@ public class LoginFragment extends Fragment {
         loginViewModel.configurationChanged(emailEditText.getText().toString(), passwordEditText.getText().toString());
     }
 
-    private void performSignIn(EditText emailEditText, EditText passwordEditText, LoginFragment fragment) {
+    private void performSignIn(EditText emailEditText, EditText passwordEditText) {
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
         if (validateCredentials(email, password))
-            loginViewModel.performSignIn(email, password, fragment);
+            loginViewModel.performSignIn(email, password);
 
     }
 
@@ -93,6 +92,16 @@ public class LoginFragment extends Fragment {
         loginViewModel.getPasswordEditText().observe(requireActivity(), text -> {
             passwordEditText.setText(text);
             passwordEditText.setSelection(text.length());
+        });
+
+        loginViewModel.getIsLoadingLoginLiveData().observe(this.getActivity(), isLoading -> {
+            try{
+                if(isLoading){
+                    Util.showProgressDialog(LoginFragment.this.requireActivity(), requireActivity().getResources().getString(R.string.checking_credentials));
+                } else Util.dismissProgressDialog();
+            } catch (IllegalStateException e){
+                e.printStackTrace();
+            }
         });
     }
 

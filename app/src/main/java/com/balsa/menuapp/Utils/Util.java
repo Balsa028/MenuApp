@@ -33,8 +33,9 @@ public class Util {
     }
 
     public static void showProgressDialog(Context context, String message) {
-        progressDialog = new ProgressDialog(context);
+        if(progressDialog == null) progressDialog = new ProgressDialog(context);
         progressDialog.setMessage(message);
+        progressDialog.setCancelable(false);
         progressDialog.show();
     }
 
